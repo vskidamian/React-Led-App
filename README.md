@@ -1,3 +1,9 @@
+Animations.js to plik z fetchami
+Animate.js to ten w którym dodałeś 'currentOptions'
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 
