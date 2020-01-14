@@ -2,6 +2,8 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Grid, Paper, Button, Typography, Input} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import PatternOptionsCard from './Cards/PatternOptionsCard/PatternOptionsCard'
+
 const styles = {
   Paper: {
     background: "#36393F",
@@ -36,6 +38,8 @@ export default function AnimationsMenu() {
 
     const [spacing, setSpacing] = React.useState(2);
 
+    const [currentPatternOptions, setCurrentPatternOptions] = React.useState(null)
+    const [currentPatternOptionsData, setCurrentPatternOptionsData] = React.useState(null)
 
     const handleChange = event => {
         setSpacing(Number(event.target.value));
@@ -56,6 +60,8 @@ export default function AnimationsMenu() {
         const result = await fetch('http://localhost:5000/rainbowstatic').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            setCurrentPatternOptions('staticOptions');
+            setCurrentPatternOptionsData('staticOptions',json);
             return json;
         }).catch(err => {
             alert(err);
@@ -91,6 +97,8 @@ export default function AnimationsMenu() {
         setFetching(true);
         const result = await fetch('http://localhost:5000/water').then(async (data) => {
             const json = await data.json();
+            setCurrentPatternOptions('waterOptions');
+            setCurrentPatternOptionsData(json);
         console.log(json);
             return json;
         }).catch(err => {
@@ -234,11 +242,7 @@ export default function AnimationsMenu() {
                     </Paper>           
                     </Grid>
                     <Grid item xs={6}>
-                    <Paper style={styles.Paper}>
-                    <Typography variant="h6" style={{color: "#fff"}}>
-                        Options
-                    </Typography>
-                     </Paper>
+                        {currentPatternOptions !== null ? <PatternOptionsCard currentPatternOptions={currentPatternOptions} currentPatternOptionsData={currentPatternOptionsData} /> : null } 
                     </Grid>
     </Grid>
     );
