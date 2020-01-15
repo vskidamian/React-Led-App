@@ -249,7 +249,8 @@ app.get('/off', async (req, res) => {
 app.get('/', async (req, res) => {
     res.send('Lights MENU');
 })
-//-----
+//---------------------------------------
+
 app.get('/solidcolor', (req, res) => { //to zmienic
     board.transport.read([0xF0, MY_COMMAND, SET_PATTERN, 0x20, 0xF7]);
     res.send({ hi: 'solidcolor' });

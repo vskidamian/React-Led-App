@@ -9,13 +9,13 @@ const useStyles = makeStyles({
       }
   });
 
-const StaticOptionsCardContent = ({data}) => {
+const BlinkOptionsCardContent = ({data}) => {
     const classes = useStyles();
     return ( 
         <div>
             <Grid item xs={12}>
                 <Typography style={{color: "#fff"}} gutterBottom>
-                    Static - Number of LEDs
+                    Blink - Number of LEDs
                  </Typography>
                  <Input style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60"></Input>
                  <Button variant="contained" style={{color: "#fff", background: "#00b200"}} size="small" className={classes.send}>
@@ -27,4 +27,4 @@ const StaticOptionsCardContent = ({data}) => {
      );
 }
  
-export default StaticOptionsCardContent;
+export default BlinkOptionsCardContent;

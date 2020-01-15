@@ -1,14 +1,36 @@
 import React from 'react';
+import { Grid, Paper, Button, Typography, Input} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles({
+      send: {
+          marginBottom: 4,
+          marginLeft: 7,
+      }
+  });
 
 const WaterOptionsCardContent = ({data}) => {
+    const classes = useStyles();
     return ( 
         <div>
-            WaterOptions
-            <br />
-            To jest response z boardu:
-            <br />
-            {JSON.stringify(data)}
+            <Grid item xs={12}>
+            <Typography style={{color: "#fff"}} gutterBottom>
+                    Water - Number of LEDs
+                 </Typography>
+                 <Input style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60"></Input>
+                 <Button variant="contained" style={{color: "#fff", background: "#00b200"}} size="small" className={classes.send}>
+                    <Typography>SEND</Typography>
+                 </Button>
+           {/* <Typography style={{color: "#fff"}} gutterBottom>
+                    Water - 
+                 </Typography>
+                 <Input style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60"></Input>
+                 <Button variant="contained" style={{color: "#fff", background: "#00b200"}} size="small" className={classes.send}>
+                    <Typography>SEND</Typography>
+                 </Button>
+                  */}
+            </Grid>      
+            {/*{JSON.stringify(data)}*/}
         </div>
      );
 }

@@ -80,6 +80,8 @@ export default function AnimationsMenu() {
         const result = await fetch('http://localhost:5000/rainbowdynamic').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            setCurrentPatternOptions('dynamicOptions');
+            setCurrentPatternOptionsData('dynamicOptions',json);
             return json;
         }).catch(err => {
             alert(err);
@@ -118,6 +120,8 @@ export default function AnimationsMenu() {
         const result = await fetch('http://localhost:5000/blink').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            setCurrentPatternOptions('blinkOptions');
+            setCurrentPatternOptionsData('blinkOptions',json);
             return json;
         }).catch(err => {
             alert(err);
@@ -136,6 +140,8 @@ export default function AnimationsMenu() {
         const result = await fetch('http://localhost:5000/fire').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            setCurrentPatternOptions('fireOptions');
+            setCurrentPatternOptionsData('fireOptions',json);
             return json;
         }).catch(err => {
             alert(err);
@@ -154,6 +160,8 @@ export default function AnimationsMenu() {
         const result = await fetch('http://localhost:5000/cylon').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            setCurrentPatternOptions('cylonOptions');
+            setCurrentPatternOptionsData('cylonOptions',json);
             return json;
         }).catch(err => {
             alert(err);
@@ -172,6 +180,8 @@ export default function AnimationsMenu() {
         const result = await fetch('http://localhost:5000/confetti').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            setCurrentPatternOptions('sparkOptions');
+            setCurrentPatternOptionsData('sparkOptions',json);
             return json;
         }).catch(err => {
             alert(err);
@@ -190,6 +200,8 @@ export default function AnimationsMenu() {
         const result = await fetch('http://localhost:5000/beat').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            setCurrentPatternOptions('bpmOptions');
+            setCurrentPatternOptionsData('bpmOptions',json);
             return json;
         }).catch(err => {
             alert(err);
