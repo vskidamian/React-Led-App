@@ -16,6 +16,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 var strip = undefined;
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const promiseWrite = async (transport, command) => {
     const promise = new Promise((resolve, reject) => {
@@ -31,12 +33,12 @@ const promiseWrite = async (transport, command) => {
     });
     return promise;
 };
-var board = new firmata.Board('COM3', function () {
+var board = new firmata.Board('COM6', function () {
 });
 
 app.use(cors({ origin: '*' }));
-app.get('/', (req, res) => {
-    res.send({ hi: 'flux' });
+app.get('/', async (req, res) => {
+    res.send({hi: 'Lights MENU'});
 });
 /// '/color/test/0' (value='test', id='0' )
 /// '/color/test/1' (value='test', id='1' )
@@ -246,9 +248,10 @@ app.get('/off', async (req, res) => {
 });
 
 //----------TESTY------------------------
-app.get('/', async (req, res) => {
-    res.send('Lights MENU');
-})
+app.post('/blinknumber', async (req,res) => {
+    console.log(req.body);
+    var blinknumber = req.body.post;
+});
 //---------------------------------------
 
 app.get('/solidcolor', (req, res) => { //to zmienic

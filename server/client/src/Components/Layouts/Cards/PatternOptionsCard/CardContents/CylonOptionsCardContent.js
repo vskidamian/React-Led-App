@@ -1,6 +1,9 @@
 import React from 'react';
 import { Grid, Button, Typography, Input} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import TextField from '@material-ui/core/TextField';
+import NumberFormat from 'react-number-format';
+
 
 const useStyles = makeStyles({
       send: {
@@ -17,7 +20,7 @@ const CylonOptionsCardContent = ({data}) => {
                 <Typography style={{color: "#fff"}} gutterBottom>
                     Cylon - Number of LEDs
                  </Typography>
-                 <Input style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60"></Input>
+                 <NumberFormat style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>
                  <Button variant="contained" style={{color: "#fff", background: "#00b200"}} size="small" className={classes.send}>
                     <Typography>SEND</Typography>
                  </Button>
