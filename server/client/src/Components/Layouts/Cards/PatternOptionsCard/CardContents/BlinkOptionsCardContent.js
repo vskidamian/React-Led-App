@@ -57,7 +57,8 @@ class BlinkOptionsCardContent extends Component {
         body: JSON.stringify({ post: this.state.post }),
       });
   
-      const body = await response.text();    this.setState({ responseToPost: body });
+      const body = await response.text();    
+      this.setState({ responseToPost: body });
     };
     render() {
         return ( 

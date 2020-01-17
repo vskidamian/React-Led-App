@@ -51,6 +51,7 @@ function HeaderAppBar(props) {
     </AppBar>
       <Typography style={{color: "white"}} className={classes.currentPattern} vairant="h6" align="left">Current Pattern: {title}</Typography>
   </div>
+  //DODAC Typography z nazwą CONFIGU
   );
 };
 

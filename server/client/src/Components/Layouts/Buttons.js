@@ -22,6 +22,10 @@ const useStyles = makeStyles({
 });
 
 export default function ButtonsMenu() {
+    //WYSWIETLANIE AKTUALNEGO CONFIGU ( RUN -/- CONFIG ) ze wzgledu na przycisk - wyswietlane w Headerze
+    const [currentConfig, setCurrentConfig] = React.useState(null)
+    const [cureentConfigData, setCurrentConfigData] = React.useState(null)
+
     const classes = useStyles();
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
@@ -76,6 +80,8 @@ export default function ButtonsMenu() {
         const result = await fetch('http://localhost:5000/run').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            setCurrentConfig('dynamicOptions');
+            setCurrentConfigData('dynamicOptions',json);
             return json;
         }).catch(err => {
             alert(err);

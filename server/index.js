@@ -8,8 +8,29 @@ const SET_PATTERN = 0x01;
 const SET_SOLID = 0x02;
 const RUN = 0x03;
 const CONFIG = 0x04;
+const ACCESS0R = 0x05;
+const SET = 0x00;
+const GET = 0x01;
+const NUMBER = 0x03;
+const VALUE = 0x02;
 
-const SET_BLINK_TIME = 0x05;
+function handleAccessorCommand(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
+    console.log({data});
+      var encode = [];
+      try {
+        encode = firmata.decode(data);
+        console.log(encode);
+        //encode = firmata.decode(encode);
+        //console.log(encode);
+      } catch (e) {
+        console.log({m: 'error', e});
+      }
+      if (encode.length && encode[0] === VALUE) { //
+        const obecna_wartosc = encode[1];
+        console.log({ok: obecna_wartosc});
+      }
+      console.log('\n\n');
+    }
 
 var cors = require('cors')
 const app = express();
@@ -249,14 +270,22 @@ app.get('/off', async (req, res) => {
 
 //----------TESTY------------------------
 app.post('/blinknumber', async (req,res) => {
-    console.log(req.body);
     var blinknumber = req.body.post;
+    const promise0 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, NUMBER, blinknumber, 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, NUMBER, 0xF7]);
+    return Promise.all([promise0, promise1, promise2]).then(() => {
+        res.send({ hi: 'blink number'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
 });
 //---------------------------------------
 
 app.get('/solidcolor', (req, res) => { //to zmienic
     board.transport.read([0xF0, MY_COMMAND, SET_PATTERN, 0x20, 0xF7]);
     res.send({ hi: 'solidcolor' });
+    
 });
 
 
