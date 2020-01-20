@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import NumberOfLeds from './NumberOfLeds';
+import Configuration from "./Configuration";
 
 
 
@@ -134,7 +135,8 @@ const useFetchDownPattern = useCallback(async () => {
 
     return (
         <Grid container  spacing={2}>
-            <Grid item xs={12}>
+            < Configuration />
+            <Grid item xs={6}>
                 <Paper style={styles.Paper}>
                 <Typography variant="h6" style={{color: "#fff"}}>
                     Global Settings

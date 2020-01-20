@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Grid, Paper, Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import ChooseColor from "./ChooseColor";
 
 const styles = {
   Paper: {
@@ -19,6 +19,7 @@ const useStyles = makeStyles({
   button: {
       marginLeft: 20,
       marginTop: 5,
+      marginBottom: 10,
     }}
 );
 
@@ -187,6 +188,7 @@ export default function ColorsMenu() {
                     <Button onClick={useFetchWhite} variant="contained" style={{color: "#212121", background:"#eeeeee"}} className={classes.button}>
                     <Typography>WHITE</Typography>
                 </Button>
+                < ChooseColor />
             </Paper>
         </Grid>
     </Grid>

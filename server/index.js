@@ -36,7 +36,9 @@ var cors = require('cors')
 const app = express();
 const port = process.env.PORT || 5000;
 var strip = undefined;
-
+//TEST
+var urlencodedParse = bodyParser.urlencoded({extended: false});
+//-------
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -279,6 +281,11 @@ app.post('/numberofleds', async (req,res) => {
         res.send({ hi: 'error', details: error});
     });
 });
+
+app.post('/choosecolor', async (req, res) => {
+    var choosecolor = req.body.post;
+    console.log(choosecolor);
+})
 //---------------------------------------
 
 app.get('/solidcolor', (req, res) => { //to zmienic
