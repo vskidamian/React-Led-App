@@ -272,7 +272,7 @@ app.get('/off', async (req, res) => {
 
 //----------TESTY------------------------
 app.post('/numberofleds', async (req,res) => {
-    var numberofleds = req.body.post;
+    var numberofleds = req.body.ledsNumber;
     const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, NUMBER, numberofleds, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, NUMBER, 0xF7]);
     return Promise.all([promise1, promise2]).then(() => {

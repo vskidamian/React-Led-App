@@ -41,7 +41,7 @@ function HeaderAppBar(props) {
   console.log('rerender');
   const { classes } = props;
   return (
-    <div >
+    <React.Fragment >
     <AppBar position="relative" style={{background: "#212121"}}>
     <Toolbar>
       <Typography className={classes.menuButton} variant="h5">Light up your life!</Typography>
@@ -50,7 +50,7 @@ function HeaderAppBar(props) {
       </Toolbar>
     </AppBar>
       <Typography style={{color: "white"}} className={classes.currentPattern} vairant="h6" align="left">Current Pattern: {title}</Typography>
-  </div>
+  </React.Fragment>
   //DODAC Typography z nazwą CONFIGU
   );
 };
