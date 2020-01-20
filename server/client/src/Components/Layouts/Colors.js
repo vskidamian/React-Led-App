@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Grid, Paper, Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+
 const styles = {
   Paper: {
     background: "#36393F",
@@ -165,7 +166,7 @@ export default function ColorsMenu() {
                 <Typography variant="h6" style={{color: "#fff"}}>
                         Colors
                 </Typography>
-                    <Button onClick={useFetchRed} variant="contained" style={{color: "#fff", background:"#d50000"}} className={classes.button}>
+                    <Button onClick={(useFetchRed)} variant="contained" style={{color: "#fff", background:"#d50000"}} className={classes.button}>
                     <Typography>RED</Typography>
                 </Button>
                     <Button onClick={useFetchGreen} variant="contained" style={{color: "#fff", background:"#00b200"}} className={classes.button}>

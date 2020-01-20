@@ -269,13 +269,12 @@ app.get('/off', async (req, res) => {
 });
 
 //----------TESTY------------------------
-app.post('/blinknumber', async (req,res) => {
-    var blinknumber = req.body.post;
-    const promise0 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
-    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, NUMBER, blinknumber, 0xF7]);
+app.post('/numberofleds', async (req,res) => {
+    var numberofleds = req.body.post;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, NUMBER, numberofleds, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, NUMBER, 0xF7]);
-    return Promise.all([promise0, promise1, promise2]).then(() => {
-        res.send({ hi: 'blink number'});
+    return Promise.all([promise1, promise2]).then(() => {
+        res.send({ hi: 'number of leds'});
     }).catch((error) => {
         res.send({ hi: 'error', details: error});
     });

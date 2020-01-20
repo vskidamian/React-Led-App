@@ -3,7 +3,7 @@ import { Grid, Paper, Typography, Button, Input} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-
+import NumberOfLeds from './NumberOfLeds';
 
 
 
@@ -42,7 +42,6 @@ export default function ButtonsMenu() {
           isComponentMounted.current = false
       }
   }, [])
-
   const useFetchUp = useCallback(async () => {
       if (isFetching) {
           return;
@@ -151,15 +150,7 @@ const useFetchDownPattern = useCallback(async () => {
                     <RemoveIcon />
                  </Button>
                  </Grid>
-                 <Grid item xs={12}>
-                 <Typography style={{color: "#fff"}} gutterBottom>
-                    Number of LEDs
-                 </Typography>
-                 <Input style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60"></Input>
-                 <Button variant="contained" style={{color: "#fff", background: "#00b200"}} size="small" className={classes.send}>
-                    <Typography>SEND</Typography>
-                 </Button>
-                 </Grid>
+                 < NumberOfLeds />
                 </Paper>
             </Grid>
         </Grid>

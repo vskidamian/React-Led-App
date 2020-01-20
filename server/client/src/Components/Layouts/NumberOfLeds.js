@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   });
 
 
-class StaticOptionsCardContent extends Component {
+class NumberOfLeds extends Component {
     state = {
       response: '',
       post: '',
@@ -32,7 +32,7 @@ class StaticOptionsCardContent extends Component {
     };  
     handleSubmit = async e => {
       e.preventDefault();
-      const response = await fetch('http://localhost:5000/staticnumber', {
+      const response = await fetch('http://localhost:5000/numberofleds', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ class StaticOptionsCardContent extends Component {
             <div>
                 <Grid item xs={12}>
                     <Typography style={{color: "#fff"}} gutterBottom>
-                        STATIC - Number of LEDs
+                        Number of LEDs
                      </Typography>
                      <form onSubmit={this.handleSubmit}>
                      <NumberFormat value={this.state.post} onChange={e => this.setState({ post: e.target.value })} style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>
@@ -62,4 +62,5 @@ class StaticOptionsCardContent extends Component {
          );
     }
 }
-export default StaticOptionsCardContent;
+ 
+export default NumberOfLeds;
