@@ -213,7 +213,7 @@ export default function AnimationsMenu() {
     }, [isFetching]);
 
     return (
-        <Grid container className={classes.root} spacing={2}>
+        <Grid container className={classes.root}>
             <Grid item xs={6}>
                     <Paper style={styles.Paper}>
                     <Typography variant="h6" style={{color: "#fff"}}>

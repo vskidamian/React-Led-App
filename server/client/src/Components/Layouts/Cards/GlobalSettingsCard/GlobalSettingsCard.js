@@ -133,7 +133,7 @@ export default function ButtonsMenu() {
     }, [isFetching]);
 
     return (
-        //  <Grid item xs={6}> 
+
         <Paper style={styles.Paper}>
 
             <Typography variant="h6" style={{ color: "#fff" }}>
@@ -152,6 +152,6 @@ export default function ButtonsMenu() {
             </Grid>
             < LedsNumberConfigurator />
         </Paper>
-        // </Grid>
+
     );
 }

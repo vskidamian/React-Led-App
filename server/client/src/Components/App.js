@@ -6,7 +6,7 @@ import Header from './Layouts/Header.js';
 import Buttons from './Layouts/Buttons.js';
 import Colors from './Layouts/Colors.js';
 import AnimationsButtons from './Layouts/Animations.js';
-import GeneralSettingsCard from './Layouts/Cards/GeneralSettingsCard/GeneralSettingsCard';
+import GlobalSettingsCard from './Layouts/Cards/GlobalSettingsCard/GlobalSettingsCard';
 import ConfigurationCard from './Layouts/Cards/ConfigurationCard/ConfigurationCard';
 import './App.css';
 
@@ -18,15 +18,23 @@ export default class extends Component {
         <Header />
         <Container maxWidth={'xl'}>
           <Grid container spacing={2}>
-            <Buttons />
-            <Colors />
-            <AnimationsButtons />
+            <Grid item xs={12}>
+              <Buttons />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Colors />
+            </Grid>
+
+            <Grid item xs={12}>
+              <AnimationsButtons />
+            </Grid>
 
             <Grid item xs={6}>
               <ConfigurationCard />
             </Grid>
             <Grid item xs={6}>
-              <GeneralSettingsCard />
+              <GlobalSettingsCard />
             </Grid>
           </Grid>
         </Container>
