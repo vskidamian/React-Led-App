@@ -13,6 +13,9 @@ const SET = 0x00;
 const GET = 0x01;
 const NUMBER = 0x03;
 const VALUE = 0x02;
+const RED = 0x04;
+const GREEN = 0x05;
+const BLUE = 0x06;
 
 function handleAccessorCommand(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
     console.log({data});
@@ -283,9 +286,28 @@ app.post('/numberofleds', async (req,res) => {
 });
 
 app.post('/choosecolor', async (req, res) => {
-    var choosecolor = req.body.post;
-    console.log(choosecolor);
-})
+    let hexcolors = req.body.valueRed;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, RED, hexcolors[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, RED, 0xF7]);
+    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, GREEN, hexcolors[1], 0xF7]);
+    const promise4 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, GREEN, 0xF7]);
+    const promise5 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, BLUE, hexcolors[2], 0xF7]);
+    const promise6 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, BLUE, 0xF7]);
+    return Promise.all([promise1, promise2, promise3, promise4, promise5, promise6]).then(() => {
+        res.send({ hi: 'hex color number'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
+
+app.get('/showcolor', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x0a, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'showcolor hex'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
 //---------------------------------------
 
 app.get('/solidcolor', (req, res) => { //to zmienic

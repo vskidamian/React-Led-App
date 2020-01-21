@@ -3,11 +3,14 @@ import {Box, Grid, Button, Typography, Input} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import NumberFormat from 'react-number-format';
+import ShowHexColor from './ShowHexColor.js';
 
 class ChooseColor extends Component {
     state = {
       response: '',
-      post: '',
+      valueRed: '',
+      valueGreen: '',
+      valueBlue: '',
       responseToPost: '',
     };  
     componentDidMount() {
@@ -17,17 +20,21 @@ class ChooseColor extends Component {
     }  
     handleSubmit = async e => {
       e.preventDefault();
-      const response = await fetch('http://localhost:5000/choosecolor', {
+      const response = await this.setValueOfHexColors([this.state.valueRed, this.state.valueGreen, this.state.valueBlue]);
+
+      const body = await response.text();
+      this.setState({ responseToPost: body});
+    };
+      
+    setValueOfHexColors = async (valueRed, valueGreen, valueBlue) => {
+      return fetch('http://localhost:5000/choosecolor', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type' : 'application/json', 
         },
-        body: JSON.stringify({ post: this.state.post }),
+        body: JSON.stringify({valueRed, valueGreen, valueBlue}),
       });
-  
-      const body = await response.text();    
-      this.setState({ responseToPost: body });
-    };
+    }
     render() {
         return ( 
             <div>
@@ -38,20 +45,21 @@ class ChooseColor extends Component {
                      <form onSubmit={this.handleSubmit} method="POST" action="/choosecolor">
                      <Box component="object" m={1}>
                      <label for="red"></label>
-                     <NumberFormat name="red" value={this.state.red} onChange={e => this.setState({ post: e.target.value })} style={{ background: "#fff"}} color="secondary" placeholder="RED (0 - 255)" customInput={TextField} format="###"/>
+                     <NumberFormat name="red" value={this.state.valueRed} onChange={e => this.setState({ valueRed: e.target.value })} style={{ background: "#fff"}} color="secondary" placeholder="RED (0 - 255)" customInput={TextField} format="###"/>
                      </Box>
                      <Box component="object" m={1}>
                      <label for="green"></label>
-                     <NumberFormat name="red" value={this.state.green} onChange={e => this.setState({ post: e.target.value })} style={{  background: "#fff"}} color="secondary" placeholder="GREEN (0 - 255)" customInput={TextField} format="###"/>
+                     <NumberFormat name="green" value={this.state.valueGreen} onChange={e => this.setState({ valueGreen: e.target.value })} style={{  background: "#fff"}} color="secondary" placeholder="GREEN (0 - 255)" customInput={TextField} format="###"/>
                      </Box>
                      <Box component="object" m={1}>
                      <label for="blue"></label>
-                     <NumberFormat name="red" value={this.state.blue} onChange={e => this.setState({ post: e.target.value })} style={{ background: "#fff"}} color="secondary" placeholder="BLUE (0 - 255)" customInput={TextField} format="###"/>
+                     <NumberFormat name="blue" value={this.state.valueBlue} onChange={e => this.setState({ valueBlue: e.target.value })} style={{ background: "#fff"}} color="secondary" placeholder="BLUE (0 - 255)" customInput={TextField} format="###"/>
                      </Box>
                      <Button type="submit" variant="contained" style={{color: "#fff",  background: "#00b200"}} size="small" >
                         <Typography>SEND</Typography>
                      </Button>
                      </form>
+                     <ShowHexColor />
                 </Grid>
     
             </div>
