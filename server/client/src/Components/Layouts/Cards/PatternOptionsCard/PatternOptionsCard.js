@@ -16,6 +16,7 @@ const useStyles = makeStyles({
         padding: 20,
         marginTop: 10,
         marginBottom: 10,
+        marginLeft: 10,
         overflowY: "auto"
     }
 })
