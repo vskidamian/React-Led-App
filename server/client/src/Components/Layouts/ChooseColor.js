@@ -26,13 +26,13 @@ class ChooseColor extends Component {
       this.setState({ responseToPost: body});
     };
       
-    setValueOfHexColors = async (valueRed, valueGreen, valueBlue) => {
+    setValueOfHexColors = async (valueOfColors) => {
       return fetch('http://localhost:5000/choosecolor', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json', 
         },
-        body: JSON.stringify({valueRed, valueGreen, valueBlue}),
+        body: JSON.stringify({valueOfColors}),
       });
     }
     render() {

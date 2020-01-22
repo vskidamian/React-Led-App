@@ -3,6 +3,7 @@ import { Grid, Paper, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChooseColor from "./ChooseColor";
 
+
 const styles = {
     Paper: {
         background: "#36393F",

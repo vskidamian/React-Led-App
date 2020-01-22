@@ -286,15 +286,15 @@ app.post('/numberofleds', async (req,res) => {
 });
 
 app.post('/choosecolor', async (req, res) => {
-    let hexcolors = req.body.valueRed;
-    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, RED, hexcolors[0], 0xF7]);
+    let valueOfColors = req.body.valueOfColors;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, RED, valueOfColors[0], 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, RED, 0xF7]);
-    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, GREEN, hexcolors[1], 0xF7]);
+    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, GREEN, valueOfColors[1], 0xF7]);
     const promise4 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, GREEN, 0xF7]);
-    const promise5 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, BLUE, hexcolors[2], 0xF7]);
+    const promise5 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, BLUE, valueOfColors[2], 0xF7]);
     const promise6 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, BLUE, 0xF7]);
     return Promise.all([promise1, promise2, promise3, promise4, promise5, promise6]).then(() => {
-        res.send({ hi: 'hex color number'});
+        res.send({ hi: 'colors number'});
     }).catch((error) => {
         res.send({ hi: 'error', details: error});
     });
