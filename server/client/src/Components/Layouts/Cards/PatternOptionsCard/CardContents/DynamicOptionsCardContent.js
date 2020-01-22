@@ -13,36 +13,34 @@ const useStyles = makeStyles({
   });
 
 
-class DynamicOptionsCardContent extends Component {
+  class DynamicOptionsCardContent extends Component {
     state = {
       response: '',
-      post: '',
+      dynamicNumber: '',
       responseToPost: '',
     };  
     componentDidMount() {
-      this.callApi()
+      this.DynamicNumberSettings()
         .then(res => this.setState({ response: res.express }))
         .catch(err => console.log(err));
     }  
-    callApi = async () => {
-      const response = await fetch('/api/hello');
-      const body = await response.json();    
-      if (response.status !== 200) throw Error(body.message);    
-      return body;
-    };  
     handleSubmit = async e => {
       e.preventDefault();
-      const response = await fetch('http://localhost:5000/dynamicnumber', {
+      const response = await this.DynamicNumberSettings(this.state.dynamicNumber);
+      
+      const body = await response.text();
+      this.setState({ responseToPost: body});
+    };
+
+    DynamicNumberSettings = async dynamicNumber => {
+      return fetch('http://localhost:5000/dynamicnumber', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ post: this.state.post }),
+        body: JSON.stringify({ dynamicNumber: dynamicNumber }),
       });
-  
-      const body = await response.text();    
-      this.setState({ responseToPost: body });
-    };
+    }
     render() {
         return ( 
             <div>
@@ -51,7 +49,7 @@ class DynamicOptionsCardContent extends Component {
                         DYNAMIC - Number of LEDs
                      </Typography>
                      <form onSubmit={this.handleSubmit}>
-                     <NumberFormat value={this.state.post} onChange={e => this.setState({ post: e.target.value })} style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>
+                     <NumberFormat value={this.state.post} onChange={e => this.setState({ dynamicNumber: e.target.value })} style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>
                      <Button type="submit" variant="contained" style={{color: "#fff", background: "#00b200"}} size="small" >
                         <Typography>SEND</Typography>
                      </Button>

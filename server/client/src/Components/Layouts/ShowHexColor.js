@@ -44,7 +44,7 @@ export default function ShowHexColor() {
 
 
     return (
-            <Button onClick={useFetchShowColor} variant="contained" style={{ color: "#212121", background: "#9ccc65" }} className={classes.button}>
+            <Button onClick={useFetchShowColor} variant="contained" style={{ color: "#fff", background: "#00bfa5" }} className={classes.button}>
                 <Typography>SHOW</Typography>
             </Button>
     );

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Box, Grid, Button, Typography, Input} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import NumberFormat from 'react-number-format';
 import ShowHexColor from './ShowHexColor.js';

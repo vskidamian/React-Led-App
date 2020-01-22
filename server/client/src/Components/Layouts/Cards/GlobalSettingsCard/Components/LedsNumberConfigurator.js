@@ -9,11 +9,11 @@ class LedsNumberConfigurator extends Component {
         ledsNumber: '',
         responseToPost: '',
     };
-    componentDidMount() {
+   /* componentDidMount() {
         this.setNumberOfLedsRequest()
             .then(res => this.setState({ response: res.express }))
-            .catch(err => console.log(err));
-    }
+            .catch(err => console.log(err));*
+    }*/
     handleSubmit = async e => {
         e.preventDefault();
         const response = await this.setNumberOfLedsRequest(this.state.ledsNumber);

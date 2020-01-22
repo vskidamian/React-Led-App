@@ -33,33 +33,32 @@ const useStyles = makeStyles({
 class BlinkOptionsCardContent extends Component {
     state = {
       response: '',
-      post: '',
+      blinkNumber: '',
       responseToPost: '',
     };  
     componentDidMount() {
-      this.callApi()
+      this.BlinkNumberSettings()
         .then(res => this.setState({ response: res.express }))
         .catch(err => console.log(err));
     }  
-    callApi = async () => {
-      const response = await fetch('/api/hello');
-      const body = await response.json();    
-      if (response.status !== 200) throw Error(body.message);    
-      return body;
-    };  
     handleSubmit = async e => {
       e.preventDefault();
-      const response = await fetch('http://localhost:5000/blinknumber', {
+      const response = await this.BlinkNumberSettings(this.state.blinkNumber);
+      
+      const body = await response.text();
+      this.setState({ responseToPost: body});
+    };
+
+    BlinkNumberSettings = async blinkNumber => {
+      return fetch('http://localhost:5000/blinknumber', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ post: this.state.post }),
+        body: JSON.stringify({ blinkNumber: blinkNumber }),
       });
-  
-      const body = await response.text();    
-      this.setState({ responseToPost: body });
-    };
+    }
+    
     render() {
         return ( 
             <div>
@@ -68,7 +67,7 @@ class BlinkOptionsCardContent extends Component {
                         Blink - Number of LEDs
                      </Typography>
                      <form onSubmit={this.handleSubmit}>
-                     <NumberFormat value={this.state.post} onChange={e => this.setState({ post: e.target.value })} style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>
+                     <NumberFormat value={this.state.post} onChange={e => this.setState({ blinkNumber: e.target.value })} style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>
                      <Button type="submit" variant="contained" style={{color: "#fff", background: "#00b200"}} size="small" >
                         <Typography>SEND</Typography>
                      </Button>

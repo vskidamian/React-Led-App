@@ -100,7 +100,7 @@ export default function AnimationsMenu() {
         const result = await fetch('http://localhost:5000/water').then(async (data) => {
             const json = await data.json();
             setCurrentPatternOptions('waterOptions');
-            setCurrentPatternOptionsData(json);
+            setCurrentPatternOptionsData('waterOptions',json);
         console.log(json);
             return json;
         }).catch(err => {
