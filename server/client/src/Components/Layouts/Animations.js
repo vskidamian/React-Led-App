@@ -57,7 +57,7 @@ export default function AnimationsMenu() {
             return;
         }
         setFetching(true);
-        const result = await fetch('http://localhost:5000/rainbowstatic').then(async (data) => {
+        const result = await fetch('http://localhost:5000/rainbowstaticoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
             setCurrentPatternOptions('staticOptions');
@@ -77,7 +77,7 @@ export default function AnimationsMenu() {
             return;
         }
         setFetching(true);
-        const result = await fetch('http://localhost:5000/rainbowdynamic').then(async (data) => {
+        const result = await fetch('http://localhost:5000/rainbowdynamicoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
             setCurrentPatternOptions('dynamicOptions');
@@ -97,7 +97,7 @@ export default function AnimationsMenu() {
             return;
         }
         setFetching(true);
-        const result = await fetch('http://localhost:5000/water').then(async (data) => {
+        const result = await fetch('http://localhost:5000/wateroptions').then(async (data) => {
             const json = await data.json();
             setCurrentPatternOptions('waterOptions');
             setCurrentPatternOptionsData('waterOptions',json);
@@ -117,7 +117,7 @@ export default function AnimationsMenu() {
             return;
         }
         setFetching(true);
-        const result = await fetch('http://localhost:5000/blink').then(async (data) => {
+        const result = await fetch('http://localhost:5000/blinkoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
             setCurrentPatternOptions('blinkOptions');
@@ -137,7 +137,7 @@ export default function AnimationsMenu() {
             return;
         }
         setFetching(true);
-        const result = await fetch('http://localhost:5000/fire').then(async (data) => {
+        const result = await fetch('http://localhost:5000/fireoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
             setCurrentPatternOptions('fireOptions');
@@ -157,7 +157,7 @@ export default function AnimationsMenu() {
             return;
         }
         setFetching(true);
-        const result = await fetch('http://localhost:5000/cylon').then(async (data) => {
+        const result = await fetch('http://localhost:5000/cylonoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
             setCurrentPatternOptions('cylonOptions');
@@ -177,7 +177,7 @@ export default function AnimationsMenu() {
             return;
         }
         setFetching(true);
-        const result = await fetch('http://localhost:5000/confetti').then(async (data) => {
+        const result = await fetch('http://localhost:5000/confettioptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
             setCurrentPatternOptions('sparkOptions');
@@ -197,7 +197,7 @@ export default function AnimationsMenu() {
             return;
         }
         setFetching(true);
-        const result = await fetch('http://localhost:5000/beat').then(async (data) => {
+        const result = await fetch('http://localhost:5000/beatoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
             setCurrentPatternOptions('bpmOptions');

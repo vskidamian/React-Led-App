@@ -3,6 +3,7 @@ import { Grid, Button, Typography, Input} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import NumberFormat from 'react-number-format';
+import ShowBpm from './ShowButtons/ShowBpm';
 
 
 const useStyles = makeStyles({
@@ -20,7 +21,7 @@ const useStyles = makeStyles({
       responseToPost: '',
     };  
     componentDidMount() {
-      this.BlinkNumberSettings()
+      this.BpmNumberSettings()
         .then(res => this.setState({ response: res.express }))
         .catch(err => console.log(err));
     }  
@@ -48,6 +49,7 @@ const useStyles = makeStyles({
                 <Grid item xs={12}>
                     <Typography style={{color: "#fff"}} gutterBottom>
                         Bpm - Number of LEDs
+                        < ShowBpm />
                      </Typography>
                      <form onSubmit={this.handleSubmit}>
                      <NumberFormat value={this.state.post} onChange={e => this.setState({ bpmNumber: e.target.value })} style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>

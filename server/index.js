@@ -59,7 +59,7 @@ const promiseWrite = async (transport, command) => {
     });
     return promise;
 };
-var board = new firmata.Board('COM6', function () {
+var board = new firmata.Board('COM3', function () {
 });
 
 app.use(cors({ origin: '*' }));
@@ -183,6 +183,24 @@ app.get('/rainbowstatic', async (req, res) => {
         res.send({hi: 'error', details: error});
     });  
 });
+
+app.get('/rainbowstaticoptions', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'static options'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+app.get('/rainbowdynamicoptions', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'dynamic options'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+
 app.get('/rainbowdynamic', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x06, 0xF7]);
     return Promise.all([promise1]).then(() => {
@@ -191,6 +209,15 @@ app.get('/rainbowdynamic', async (req, res) => {
         res.send({hi: 'error', details: error});
     });
 });
+app.get('/wateroptions', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'water options'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+
 app.get('/water', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x03, 0xF7]);
     return Promise.all([promise1]).then(() => {
@@ -199,10 +226,27 @@ app.get('/water', async (req, res) => {
         res.send({hi: 'error', details: error});
     });
 });
+app.get('/blinkoptions', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'blink options'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+
 app.get('/blink', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x01, 0xF7]);
     return Promise.all([promise1]).then(() => {
         res.send({ hi: 'blink' });
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+app.get('/fireoptions', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'fire options'});
     }).catch((error) => {
         res.send({hi: 'error', details: error});
     });
@@ -216,6 +260,15 @@ app.get('/fire', async (req, res) => {
         res.send({hi: 'error', details: error});
     });   
 });
+app.get('/cylonoptions', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'cylon options'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+
 
 app.get('/cylon', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x07, 0xF7]);
@@ -226,6 +279,15 @@ app.get('/cylon', async (req, res) => {
     });   
 });
 
+app.get('/confettioptions', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'confetti options'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+
 app.get('/confetti', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x02, 0xF7]);
     return Promise.all([promise1]).then(() => {
@@ -234,6 +296,15 @@ app.get('/confetti', async (req, res) => {
         res.send({hi: 'error', details: error});
     });   
 });
+app.get('/beatoptions', async (req, res) => {
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x08, 0xF7]);
+    return Promise.all([promise1]).then(() => {
+        res.send({ hi: 'beat options'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+
 
 app.get('/beat', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x09, 0xF7]);

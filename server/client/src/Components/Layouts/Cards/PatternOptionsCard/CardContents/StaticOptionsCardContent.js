@@ -3,7 +3,7 @@ import { Grid, Button, Typography, Input} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import NumberFormat from 'react-number-format';
-
+import ShowStatic from './ShowButtons/ShowStatic.js';
 
 const useStyles = makeStyles({
       send: {
@@ -48,6 +48,7 @@ const useStyles = makeStyles({
                 <Grid item xs={12}>
                     <Typography style={{color: "#fff"}} gutterBottom>
                         STATIC - Number of LEDs
+                        <ShowStatic/>
                      </Typography>
                      <form onSubmit={this.handleSubmit}>
                      <NumberFormat value={this.state.post} onChange={e => this.setState({ staticNumber: e.target.value })} style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>
@@ -55,6 +56,7 @@ const useStyles = makeStyles({
                         <Typography>SEND</Typography>
                      </Button>
                      </form>
+                     
                 </Grid>
     
             </div>

@@ -3,6 +3,7 @@ import { Grid, Button, Typography, Input} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import NumberFormat from 'react-number-format';
+import ShowBlink from './ShowButtons/ShowBlink';
 
 
 const useStyles = makeStyles({
@@ -65,6 +66,7 @@ class BlinkOptionsCardContent extends Component {
                 <Grid item xs={12}>
                     <Typography style={{color: "#fff"}} gutterBottom>
                         Blink - Number of LEDs
+                        <ShowBlink />
                      </Typography>
                      <form onSubmit={this.handleSubmit}>
                      <NumberFormat value={this.state.post} onChange={e => this.setState({ blinkNumber: e.target.value })} style={{background: "#fff"}} color="secondary" placeholder="Max of leds = 60" customInput={TextField} format="##"/>
