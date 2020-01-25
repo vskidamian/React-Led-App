@@ -16,6 +16,14 @@ const VALUE = 0x02;
 const RED = 0x04;
 const GREEN = 0x05;
 const BLUE = 0x06;
+const STATICNUMBER = 0x00;
+const STATICDELTA = 0x01;
+const DYNAMICNUMBER = 0x07;
+const DYNAMICDELTA = 0x08;
+const COOLINGWATER = 0x09;
+const SPARKINGWATER = 0x0a;
+const COOLINGFIRE = 0x0b;
+const SPARKINGFIRE = 0x0c;
 
 function handleAccessorCommand(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
     console.log({data});
@@ -370,6 +378,57 @@ app.post('/choosecolor', async (req, res) => {
         res.send({ hi: 'error', details: error});
     });
 });
+app.post('/staticsettings', async (req, res) => {
+    let settingsOfStatic = req.body.staticSettings;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, STATICNUMBER, settingsOfStatic[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, STATICNUMBER, 0xF7]);
+    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, STATICDELTA, settingsOfStatic[1], 0xF7]);
+    const promise4 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, STATICDELTA, 0xF7]);
+    return Promise.all([promise1, promise2, promise3, promise4]).then(() => {
+        res.send({ hi: 'static settings'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
+
+app.post('/dynamicsettings', async (req, res) => {
+    let settingsOfDynamic = req.body.dynamicSettings;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, DYNAMICNUMBER, settingsOfDynamic[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, DYNAMICNUMBER, 0xF7]);
+    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, DYNAMICDELTA, settingsOfDynamic[1], 0xF7]);
+    const promise4 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, DYNAMICDELTA, 0xF7]);
+    return Promise.all([promise1, promise2, promise3, promise4]).then(() => {
+        res.send({ hi: 'dynamic settings'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
+
+app.post('/watersettings', async (req, res) => {
+    let settingsOfWater = req.body.waterSettings;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, COOLINGWATER, settingsOfWater[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, COOLINGWATER, 0xF7]);
+    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, SPARKINGWATER, settingsOfWater[1], 0xF7]);
+    const promise4 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, SPARKINGWATER, 0xF7]);
+    return Promise.all([promise1, promise2, promise3, promise4]).then(() => {
+        res.send({ hi: 'water settings'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
+
+app.post('/firesettings', async (req, res) => {
+    let settingsOfFire = req.body.fireSettings;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, COOLINGFIRE, settingsOfFire[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, COOLINGFIRE, 0xF7]);
+    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, SPARKINGFIRE, settingsOfFire[1], 0xF7]);
+    const promise4 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, SPARKINGFIRE, 0xF7]);
+    return Promise.all([promise1, promise2, promise3, promise4]).then(() => {
+        res.send({ hi: 'fire settings'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
 
 app.get('/showcolor', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x0a, 0xF7]);
@@ -379,6 +438,7 @@ app.get('/showcolor', async (req, res) => {
         res.send({hi: 'error', details: error});
     });
 });
+
 //---------------------------------------
 
 app.get('/solidcolor', (req, res) => { //to zmienic
