@@ -24,6 +24,13 @@ const COOLINGWATER = 0x09;
 const SPARKINGWATER = 0x0a;
 const COOLINGFIRE = 0x0b;
 const SPARKINGFIRE = 0x0c;
+const BLINKNUMBER = 0x0d;
+const CYLONTRAIL = 0x0e;
+const CYLONSPEED = 0x0f;
+const CYLONNUMBER = 0x10;
+const SPARKNUMBER = 0x11;
+const BPMNUMBER = 0x12;
+const BPMSPEED = 0x13;
 
 function handleAccessorCommand(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
     console.log({data});
@@ -378,6 +385,7 @@ app.post('/choosecolor', async (req, res) => {
         res.send({ hi: 'error', details: error});
     });
 });
+
 app.post('/staticsettings', async (req, res) => {
     let settingsOfStatic = req.body.staticSettings;
     const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, STATICNUMBER, settingsOfStatic[0], 0xF7]);
@@ -429,6 +437,57 @@ app.post('/firesettings', async (req, res) => {
         res.send({ hi: 'error', details: error});
     });
 });
+
+app.post('/blinksettings', async (req, res) => {
+    let settingsOfBlink = req.body.blinkSettings;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, BLINKNUMBER, settingsOfBlink[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, BLINKNUMBER, 0xF7]);
+    return Promise.all([promise1, promise2]).then(() => {
+        res.send({ hi: 'blink settings'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
+
+app.post('/cylonsettings', async (req, res) => {
+    let settingsOfCylon = req.body.cylonSettings;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, CYLONNUMBER, settingsOfCylon[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, CYLONNUMBER, 0xF7]);
+    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, CYLONSPEED, settingsOfCylon[1], 0xF7]);
+    const promise4 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, CYLONSPEED, 0xF7]);
+    const promise5 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, CYLONTRAIL, settingsOfCylon[2], 0xF7]);
+    const promise6 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, CYLONTRAIL, 0xF7]);
+    return Promise.all([promise1, promise2, promise3, promise4, promise5, promise6]).then(() => {
+        res.send({ hi: 'cylon settings'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
+
+app.post('/sparksettings', async (req, res) => {
+    let settingsOfSpark = req.body.sparkSettings;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, SPARKNUMBER, settingsOfSpark[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, SPARKNUMBER, 0xF7]);
+    return Promise.all([promise1, promise2]).then(() => {
+        res.send({ hi: 'spark settings'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
+
+app.post('/bpmsettings', async (req, res) => {
+    let settingsOfbpm = req.body.bpmSettings;
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, BPMNUMBER, settingsOfbpm[0], 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, BPMNUMBER, 0xF7]);
+    const promise3 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, BPMSPEED, settingsOfbpm[1], 0xF7]);
+    const promise4 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, BPMSPEED, 0xF7]);
+    return Promise.all([promise1, promise2, promise3, promise4]).then(() => {
+        res.send({ hi: 'bpm settings'});
+    }).catch((error) => {
+        res.send({ hi: 'error', details: error});
+    });
+});
+
 
 app.get('/showcolor', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x0a, 0xF7]);
