@@ -2,7 +2,7 @@ import React from 'react';
 import { Paper, Typography } from '@material-ui/core';
 
 
-const ActualPatternName = ({ actualPatternShown, currentPatternOptionsData }) => {
+const ActualPatternName = ({ actualPatternShown,}) => {
 
     
 
@@ -18,7 +18,6 @@ const ActualPatternName = ({ actualPatternShown, currentPatternOptionsData }) =>
                 actualPatternShown == 'sparkName' ? 'SPARK' :
                 actualPatternShown == 'bpmName' ? 'BPM' : null 
             }
-
             </Typography>
 
     );

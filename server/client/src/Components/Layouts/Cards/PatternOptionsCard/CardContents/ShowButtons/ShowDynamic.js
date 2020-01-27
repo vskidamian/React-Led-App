@@ -18,7 +18,7 @@ export default function ShowDynamic() {
     const isComponentMounted = useRef(true)
 
     const [spacing, setSpacing] = React.useState(2);
-    const [actualPatternShown] = React.useState(null);
+    const [actualPatternShown, setActualPatternShown] = React.useState(null);
 
 
     const handleChange = event => {
@@ -40,7 +40,7 @@ export default function ShowDynamic() {
         const result = await fetch('http://localhost:5000/rainbowdynamic').then(async (data) => {
             const json = await data.json();
         console.log(json);
-            actualPatternShown('dynamicName');
+            setActualPatternShown('dynamicName');
             return json;
         }).catch(err => {
             alert(err);
@@ -52,9 +52,10 @@ export default function ShowDynamic() {
     }, [isFetching]);
 
     return (
+        <React.Fragment>
+            {actualPatternShown !== null ? <ActualPatternName actualPatternShown={actualPatternShown} /> : null }
         <Button onClick={useFetchRainbowDynamic} variant="contained" style={{ color: "#fff", background: "#00bfa5" }} size="small" className={classes.button}>
             <Typography>SHOW</Typography>
-            {actualPatternShown !== null ? <ActualPatternName actualPatternShown={actualPatternShown} /> : null }
         </Button>
-
+        </React.Fragment>
     );}
