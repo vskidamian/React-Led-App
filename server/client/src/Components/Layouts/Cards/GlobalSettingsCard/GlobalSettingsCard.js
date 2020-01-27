@@ -150,7 +150,6 @@ export default function ButtonsMenu() {
                     <RemoveIcon />
                 </Button>
             </Grid>
-            < LedsNumberConfigurator />
         </Paper>
 
     );

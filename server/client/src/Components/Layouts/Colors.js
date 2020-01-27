@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Grid, Paper, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChooseColor from "./ChooseColor";
+import LedsNumberConfigurator from "./Cards/GlobalSettingsCard/Components/LedsNumberConfigurator.js"
 
 
 const styles = {
@@ -190,6 +191,7 @@ export default function ColorsMenu() {
                 <Typography>WHITE</Typography>
             </Button>
             < ChooseColor />
+            < LedsNumberConfigurator />
         </Paper>
     );
 }
