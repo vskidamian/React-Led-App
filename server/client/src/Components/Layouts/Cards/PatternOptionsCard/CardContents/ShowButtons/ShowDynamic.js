@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ShowDynamic() {
+export default function ShowDynamic({}) {
     const classes = useStyles();
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
@@ -32,7 +32,7 @@ export default function ShowDynamic() {
         }
     }, [])
 
-    const useFetchRainbowDynamic = useCallback(async () => {
+    const useFetchRainbowDynamic = useCallback(async ({changeActualPatternShown}) => {
         if (isFetching) {
             return;
         }
@@ -40,7 +40,8 @@ export default function ShowDynamic() {
         const result = await fetch('http://localhost:5000/rainbowdynamic').then(async (data) => {
             const json = await data.json();
         console.log(json);
-            setActualPatternShown('dynamicName');
+           // setActualPatternShown('dynamicName');
+            changeActualPatternShown("DYNAMIC RAINBOW");
             return json;
         }).catch(err => {
             alert(err);
@@ -53,7 +54,7 @@ export default function ShowDynamic() {
 
     return (
         <React.Fragment>
-            {actualPatternShown !== null ? <ActualPatternName actualPatternShown={actualPatternShown} /> : null }
+ {/*{actualPatternShown !== null ? <ActualPatternName actualPatternShown={actualPatternShown} /> : null }*/}
         <Button onClick={useFetchRainbowDynamic} variant="contained" style={{ color: "#fff", background: "#00bfa5" }} size="small" className={classes.button}>
             <Typography>SHOW</Typography>
         </Button>

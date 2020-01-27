@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 /**
  * 
  */
-const PatternOptionsCard = ({ currentPatternOptions, currentPatternOptionsData }) => {
+const PatternOptionsCard = ({ currentPatternOptions, currentPatternOptionsData, changeActualPatternShown }) => {
 
     const classes = useStyles();
 
@@ -37,7 +37,7 @@ const PatternOptionsCard = ({ currentPatternOptions, currentPatternOptionsData }
             {
                 currentPatternOptions == 'staticOptions' ? <StaticOptionsCardContent data={currentPatternOptionsData} /> :
                 currentPatternOptions == 'waterOptions' ? <WaterOptionsCardContent data={currentPatternOptionsData} /> : 
-                currentPatternOptions == 'dynamicOptions' ? <DynamicOptionsCardContent data={currentPatternOptionsData} /> : 
+                currentPatternOptions == 'dynamicOptions' ? <DynamicOptionsCardContent changeActualPatternShown={changeActualPatternShown} data={currentPatternOptionsData} /> : 
                 currentPatternOptions == 'blinkOptions' ? <BlinkOptionsCardContent data={currentPatternOptionsData} /> : 
                 currentPatternOptions == 'cylonOptions' ? <CylonOptionsCardContent data={currentPatternOptionsData} /> : 
                 currentPatternOptions == 'fireOptions' ? <FireOptionsCardContent data={currentPatternOptionsData} /> :

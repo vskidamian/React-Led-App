@@ -49,7 +49,7 @@ const useStyles = makeStyles({
                 <Grid item xs={12}>
                     <Typography style={{color: "#fff"}} gutterBottom>
                         DYNAMIC RAINBOW
-                        <ShowDynamic/> <ClearButton/>
+                        <ShowDynamic changeActualPatternShown={this.changeActualPatternShown}/> <ClearButton/>
                      </Typography>
                      <form onSubmit={this.handleSubmit} method="POST" action="/dynamicsettings">
                      <Typography style={{color: "#fff"}}>Number of LEDs</Typography>

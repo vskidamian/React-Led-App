@@ -10,12 +10,16 @@ import GlobalSettingsCard from './Layouts/Cards/GlobalSettingsCard/GlobalSetting
 import ConfigurationCard from './Layouts/Cards/ConfigurationCard/ConfigurationCard';
 import './App.css';
 
-export default class extends Component {
+export default class App extends Component {
+  state = {
+    actualPatternShown: '',
+  };
+
   render() {
     return (
 
       <React.Fragment>
-        <Header />
+        <Header actualPatternShown={this.state.actualPatternShown} />
         <Container maxWidth={'xl'}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -23,11 +27,11 @@ export default class extends Component {
             </Grid>
 
             <Grid item xs={12}>
-              <Colors />
+              <Colors changeActualPatternShown={this.changeActualPatternShown} />
             </Grid>
 
             <Grid item xs={12}>
-              <AnimationsButtons />
+              <AnimationsButtons changeActualPatternShown={this.changeActualPatternShown} />
             </Grid>
 
             <Grid item xs={6}>
@@ -39,9 +43,12 @@ export default class extends Component {
           </Grid>
         </Container>
       </React.Fragment>
-
-
     );
   }
 
+  changeActualPatternShown = actualPatternShown => {
+    this.setState({
+      actualPatternShown
+    });
+  };
 }

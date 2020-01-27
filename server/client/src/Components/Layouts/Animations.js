@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function AnimationsMenu() {
+export default function AnimationsMenu({changeActualPatternShown}) {
     const classes = useStyles();
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
@@ -72,7 +72,7 @@ export default function AnimationsMenu() {
         }
     }, [isFetching]);
 
-    const useFetchRainbowDynamic = useCallback(async () => {
+    const useFetchRainbowDynamic = useCallback(async ({changeActualPatternShown}) => {
         if (isFetching) {
             return;
         }
@@ -254,7 +254,7 @@ export default function AnimationsMenu() {
                     </Paper>           
                     </Grid>
                     <Grid item xs={6}>
-                        {currentPatternOptions !== null ? <PatternOptionsCard currentPatternOptions={currentPatternOptions} currentPatternOptionsData={currentPatternOptionsData} /> : null } 
+                        {currentPatternOptions !== null ? <PatternOptionsCard  changeActualPatternShown={changeActualPatternShown} currentPatternOptions={currentPatternOptions} currentPatternOptionsData={currentPatternOptionsData} /> : null } 
                     </Grid>
     </Grid>
     );
