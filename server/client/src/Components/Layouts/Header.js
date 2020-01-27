@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import { usePatternStore } from '../stores/PatternStore';
 
 const useStyles = makeStyles({
   root: {
@@ -27,6 +28,9 @@ const useStyles = makeStyles({
 
 export default function Header({ actualPatternShown }) {
   const classes = useStyles();
+
+  const { currentActivePattern } = usePatternStore()
+
   return (
     <React.Fragment >
     <AppBar position="relative" style={{background: "#212121"}}>
@@ -34,7 +38,7 @@ export default function Header({ actualPatternShown }) {
       <Typography className={classes.menuButton} variant="h5">Light up your life!</Typography>
       </Toolbar>
     </AppBar>
-      <Typography style={{color: "white"}} className={classes.currentPattern} vairant="h6" align="left">Current Pattern: {actualPatternShown}</Typography>
+      <Typography style={{color: "white"}} className={classes.currentPattern} vairant="h6" align="left">Current Pattern: {currentActivePattern}</Typography>
   </React.Fragment>
   );
 };
