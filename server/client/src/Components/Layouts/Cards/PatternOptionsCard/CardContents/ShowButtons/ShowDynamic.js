@@ -12,14 +12,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ShowDynamic({}) {
+export default function ShowDynamic({changeActualPatternShown}) {
+    console.log(changeActualPatternShown);
     const classes = useStyles();
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
 
     const [spacing, setSpacing] = React.useState(2);
-    const [actualPatternShown, setActualPatternShown] = React.useState(null);
-
+    //const [actualPatternShown, setActualPatternShown] = React.useState(null);
+//
 
     const handleChange = event => {
         setSpacing(Number(event.target.value));
@@ -32,7 +33,7 @@ export default function ShowDynamic({}) {
         }
     }, [])
 
-    const useFetchRainbowDynamic = useCallback(async ({changeActualPatternShown}) => {
+    const useFetchRainbowDynamic = useCallback(async ({}) => {
         if (isFetching) {
             return;
         }
@@ -41,7 +42,7 @@ export default function ShowDynamic({}) {
             const json = await data.json();
         console.log(json);
            // setActualPatternShown('dynamicName');
-            changeActualPatternShown("DYNAMIC RAINBOW");
+            changeActualPatternShown('DYNAMIC RAINBOW');
             return json;
         }).catch(err => {
             alert(err);

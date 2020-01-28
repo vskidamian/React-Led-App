@@ -32,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AnimationsMenu({changeActualPatternShown}) {
+    console.log(changeActualPatternShown);
     const classes = useStyles();
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
@@ -72,7 +73,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         }
     }, [isFetching]);
 
-    const useFetchRainbowDynamic = useCallback(async ({changeActualPatternShown}) => {
+    const useFetchRainbowDynamic = useCallback(async ({}) => {
         if (isFetching) {
             return;
         }
@@ -82,6 +83,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         console.log(json);
             setCurrentPatternOptions('dynamicOptions');
             setCurrentPatternOptionsData('dynamicOptions',json);
+            
             return json;
         }).catch(err => {
             alert(err);

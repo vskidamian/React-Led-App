@@ -17,7 +17,7 @@ export default class App extends Component {
 
   render() {
     return (
-
+      
       <React.Fragment>
         <Header actualPatternShown={this.state.actualPatternShown} />
         <Container maxWidth={'xl'}>
@@ -46,7 +46,7 @@ export default class App extends Component {
     );
   }
 
-  changeActualPatternShown = actualPatternShown => {
+  changeActualPatternShown = (actualPatternShown) => {
     this.setState({
       actualPatternShown
     });

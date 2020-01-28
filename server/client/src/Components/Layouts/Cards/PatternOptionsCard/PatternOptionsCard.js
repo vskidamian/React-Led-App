@@ -25,7 +25,7 @@ const useStyles = makeStyles({
  * 
  */
 const PatternOptionsCard = ({ currentPatternOptions, currentPatternOptionsData, changeActualPatternShown }) => {
-
+    console.log(changeActualPatternShown);
     const classes = useStyles();
 
     return (
