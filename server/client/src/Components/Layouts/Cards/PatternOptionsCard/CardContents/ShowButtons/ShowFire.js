@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { usePatternStore } from '../../../../../stores/PatternStore';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -17,6 +18,7 @@ export default function ShowFire() {
 
     const [spacing, setSpacing] = React.useState(2);
 
+    const { changeCurrentActivePattern } = usePatternStore();
 
     const handleChange = event => {
         setSpacing(Number(event.target.value));
@@ -37,6 +39,7 @@ export default function ShowFire() {
         const result = await fetch('http://localhost:5000/fire').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('FIRE');
             return json;
         }).catch(err => {
             alert(err);

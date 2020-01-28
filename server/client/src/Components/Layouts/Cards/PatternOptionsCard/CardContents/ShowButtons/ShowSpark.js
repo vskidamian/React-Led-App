@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { usePatternStore } from '../../../../../stores/PatternStore';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -17,6 +18,7 @@ export default function ShowSpark() {
 
     const [spacing, setSpacing] = React.useState(2);
 
+    const { changeCurrentActivePattern } = usePatternStore()
 
     const handleChange = event => {
         setSpacing(Number(event.target.value));
@@ -37,6 +39,7 @@ export default function ShowSpark() {
         const result = await fetch('http://localhost:5000/confetti').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('SPARK');
             return json;
         }).catch(err => {
             alert(err);

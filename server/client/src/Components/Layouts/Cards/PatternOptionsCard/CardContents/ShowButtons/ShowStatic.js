@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { usePatternStore } from '../../../../../stores/PatternStore';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -16,6 +17,8 @@ export default function ShowStatic() {
     const isComponentMounted = useRef(true)
 
     const [spacing, setSpacing] = React.useState(2);
+
+    const { changeCurrentActivePattern } = usePatternStore();
 
 
     const handleChange = event => {
@@ -37,6 +40,7 @@ export default function ShowStatic() {
         const result = await fetch('http://localhost:5000/rainbowstatic').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('STATIC RAINBOW');
             return json;
         }).catch(err => {
             alert(err);

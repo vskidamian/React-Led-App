@@ -38,7 +38,7 @@ export default function ShowSinelon() {
         setFetching(true);
         const result = await fetch('http://localhost:5000/cylon').then(async (data) => {
             const json = await data.json();
-            changeCurrentActivePattern('Cylon')
+            changeCurrentActivePattern('CYLON');
         console.log(json);
             return json;
         }).catch(err => {

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { usePatternStore } from '../../../../../stores/PatternStore';
 
 import ActualPatternName from "./CurrentPattern/ActualShownPattern"
 
@@ -17,6 +18,8 @@ export default function ShowDynamic({}) {
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
 
+    const { changeCurrentActivePattern } = usePatternStore()
+    
     const [spacing, setSpacing] = React.useState(2);
     const [actualPatternShown, setActualPatternShown] = React.useState(null);
 
@@ -41,7 +44,7 @@ export default function ShowDynamic({}) {
             const json = await data.json();
         console.log(json);
            // setActualPatternShown('dynamicName');
-            changeActualPatternShown("DYNAMIC RAINBOW");
+            changeCurrentActivePattern('DYNAMIC RAINBOW');
             return json;
         }).catch(err => {
             alert(err);
