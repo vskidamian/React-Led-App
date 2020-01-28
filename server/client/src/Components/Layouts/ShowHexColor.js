@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import {Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { usePatternStore } from '../stores/PatternStore';
 
 const useStyles = makeStyles({
 
@@ -17,7 +17,7 @@ export default function ShowHexColor() {
     const classes = useStyles();
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
-
+    const { changeCurrentActivePattern } = usePatternStore()
     useEffect(() => {
         return () => {
             isComponentMounted.current = false
@@ -32,6 +32,7 @@ export default function ShowHexColor() {
         const result = await fetch('http://localhost:5000/showcolor').then(async (data) => {
             const json = await data.json();
             console.log(json);
+            changeCurrentActivePattern('Chosen Color');
             return json;
         }).catch(err => {
             alert(err);

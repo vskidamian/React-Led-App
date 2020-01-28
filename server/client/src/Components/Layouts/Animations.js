@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Grid, Paper, Button, Typography, Input} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { usePatternStore } from '../stores/PatternStore.js';
 
 import PatternOptionsCard from './Cards/PatternOptionsCard/PatternOptionsCard'
 
@@ -36,6 +37,8 @@ export default function AnimationsMenu({changeActualPatternShown}) {
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
 
+    const { changeCurrentActivePattern } = usePatternStore()
+
     const [spacing, setSpacing] = React.useState(2);
 
     const [currentPatternOptions, setCurrentPatternOptions] = React.useState(null)
@@ -60,6 +63,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         const result = await fetch('http://localhost:5000/rainbowstaticoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
+            changeCurrentActivePattern('NONE');
             setCurrentPatternOptions('staticOptions');
             setCurrentPatternOptionsData('staticOptions',json);
             return json;
@@ -80,6 +84,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         const result = await fetch('http://localhost:5000/rainbowdynamicoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('NONE');
             setCurrentPatternOptions('dynamicOptions');
             setCurrentPatternOptionsData('dynamicOptions',json);
             return json;
@@ -99,6 +104,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         setFetching(true);
         const result = await fetch('http://localhost:5000/wateroptions').then(async (data) => {
             const json = await data.json();
+            changeCurrentActivePattern('NONE');
             setCurrentPatternOptions('waterOptions');
             setCurrentPatternOptionsData('waterOptions',json);
         console.log(json);
@@ -120,6 +126,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         const result = await fetch('http://localhost:5000/blinkoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('NONE');
             setCurrentPatternOptions('blinkOptions');
             setCurrentPatternOptionsData('blinkOptions',json);
             return json;
@@ -140,6 +147,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         const result = await fetch('http://localhost:5000/fireoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('NONE');
             setCurrentPatternOptions('fireOptions');
             setCurrentPatternOptionsData('fireOptions',json);
             return json;
@@ -160,6 +168,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         const result = await fetch('http://localhost:5000/cylonoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('NONE');
             setCurrentPatternOptions('cylonOptions');
             setCurrentPatternOptionsData('cylonOptions',json);
             return json;
@@ -180,6 +189,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         const result = await fetch('http://localhost:5000/confettioptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('NONE');
             setCurrentPatternOptions('sparkOptions');
             setCurrentPatternOptionsData('sparkOptions',json);
             return json;
@@ -200,6 +210,7 @@ export default function AnimationsMenu({changeActualPatternShown}) {
         const result = await fetch('http://localhost:5000/beatoptions').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('NONE');
             setCurrentPatternOptions('bpmOptions');
             setCurrentPatternOptionsData('bpmOptions',json);
             return json;

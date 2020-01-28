@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Grid, Paper, Button, Typography} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { usePatternStore } from '../stores/PatternStore';
 
 const styles = {
   Paper: {
@@ -29,6 +29,7 @@ export default function ButtonsMenu() {
 
     const classes = useStyles();
     const [isFetching, setFetching] = useState(false)
+    const { changeCurrentActivePattern } = usePatternStore()
     const isComponentMounted = useRef(true)
 
     useEffect(() => {
@@ -45,6 +46,7 @@ export default function ButtonsMenu() {
         const result = await fetch('http://localhost:5000/on').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('ON');
             return json;
         }).catch(err => {
             alert(err);
@@ -63,6 +65,7 @@ export default function ButtonsMenu() {
         const result = await fetch('http://localhost:5000/off').then(async (data) => {
             const json = await data.json();
         console.log(json);
+        changeCurrentActivePattern('OFF');
             return json;
         }).catch(err => {
             alert(err);

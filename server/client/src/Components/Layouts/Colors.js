@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { Grid, Paper, Button, Typography } from "@material-ui/core";
+import {Paper, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChooseColor from "./ChooseColor";
 import LedsNumberConfigurator from "./Cards/GlobalSettingsCard/Components/LedsNumberConfigurator.js"
-
+import { usePatternStore } from '../stores/PatternStore';
 
 const styles = {
     Paper: {
@@ -30,6 +30,7 @@ export default function ColorsMenu() {
     const classes = useStyles();
     const [isFetching, setFetching] = useState(false)
     const isComponentMounted = useRef(true)
+    const { changeCurrentActivePattern } = usePatternStore()
 
     useEffect(() => {
         return () => {
@@ -45,6 +46,7 @@ export default function ColorsMenu() {
         const result = await fetch('http://localhost:5000/red').then(async (data) => {
             const json = await data.json();
             console.log(json);
+            changeCurrentActivePattern('RED');
             return json;
         }).catch(err => {
             alert(err);
@@ -63,6 +65,7 @@ export default function ColorsMenu() {
         const result = await fetch('http://localhost:5000/green').then(async (data) => {
             const json = await data.json();
             console.log(json);
+            changeCurrentActivePattern('GREEN');
             return json;
         }).catch(err => {
             alert(err);
@@ -81,6 +84,7 @@ export default function ColorsMenu() {
         const result = await fetch('http://localhost:5000/blue').then(async (data) => {
             const json = await data.json();
             console.log(json);
+            changeCurrentActivePattern('BLUE');
             return json;
         }).catch(err => {
             alert(err);
@@ -99,6 +103,7 @@ export default function ColorsMenu() {
         const result = await fetch('http://localhost:5000/yellow').then(async (data) => {
             const json = await data.json();
             console.log(json);
+            changeCurrentActivePattern('YELLOW');
             return json;
         }).catch(err => {
             alert(err);
@@ -117,6 +122,7 @@ export default function ColorsMenu() {
         const result = await fetch('http://localhost:5000/cyan').then(async (data) => {
             const json = await data.json();
             console.log(json);
+            changeCurrentActivePattern('CYAN');
             return json;
         }).catch(err => {
             alert(err);
@@ -135,6 +141,7 @@ export default function ColorsMenu() {
         const result = await fetch('http://localhost:5000/magenta').then(async (data) => {
             const json = await data.json();
             console.log(json);
+            changeCurrentActivePattern('MAGENTA');
             return json;
         }).catch(err => {
             alert(err);
@@ -153,6 +160,7 @@ export default function ColorsMenu() {
         const result = await fetch('http://localhost:5000/white').then(async (data) => {
             const json = await data.json();
             console.log(json);
+            changeCurrentActivePattern('WHITE');
             return json;
         }).catch(err => {
             alert(err);

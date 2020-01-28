@@ -31,6 +31,7 @@ const CYLONNUMBER = 0x10;
 const SPARKNUMBER = 0x11;
 const BPMNUMBER = 0x12;
 const BPMSPEED = 0x13;
+const ACTUAL_PATTERN = 0x14;
 
 function handleAccessorCommand(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
     console.log({data});
@@ -75,6 +76,7 @@ const promiseWrite = async (transport, command) => {
     return promise;
 };
 var board = new firmata.Board('COM3', function () {
+   
 });
 
 app.use(cors({ origin: '*' }));
@@ -90,8 +92,13 @@ app.get('/', async (req, res) => {
 });
 */
 app.get('/on', (req, res) => { //to zmienic
-    board.transport.write([0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
-    res.send({ hi: 'on' });
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x01, 0xF7]);
+    return Promise.all([promise1, promise2]).then(() => {
+        res.send({ hi: 'on' });
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
 });
 app.get('/run', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, RUN, 0xF7]);
