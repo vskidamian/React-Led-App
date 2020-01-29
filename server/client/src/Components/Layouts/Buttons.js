@@ -76,6 +76,24 @@ export default function ButtonsMenu() {
         }
     }, [isFetching]);
 
+    const useFetchTest = useCallback(async () => {
+        if (isFetching) {
+            return;
+        }
+        setFetching(true);
+        const result = await fetch('http://localhost:5000/test').then(async (data) => {
+            const json = await data.json();
+        console.log(json);
+            return json;
+        }).catch(err => {
+            alert(err);
+            return err;
+        });
+        if (isComponentMounted.current) {
+            setFetching(false);
+        }
+    }, [isFetching]);
+
     return (
     <Grid container className={classes.root} spacing={2}>
         <Grid item xs={6}>
@@ -90,6 +108,7 @@ export default function ButtonsMenu() {
                     <Button onClick={useFetchOff} variant="contained" color="secondary" className={classes.button}>
                     <Typography>OFF</Typography>
                 </Button>
+                <Button onClick={useFetchTest} variant="contained" className={classes.button}>TEST</Button>
                 </Grid>
             </Paper>
         </Grid>

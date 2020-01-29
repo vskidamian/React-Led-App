@@ -76,8 +76,8 @@ const promiseWrite = async (transport, command) => {
     return promise;
 };
 var board = new firmata.Board('COM3', function () {
-   
-});
+    board.sysexResponse(ACCESS0R, handleAccessorCommand);
+
 
 app.use(cors({ origin: '*' }));
 app.get('/', async (req, res) => {
@@ -506,6 +506,19 @@ app.get('/showcolor', async (req, res) => {
 });
 
 //---------------------------------------
+//------ TEST-----------------------------
+app.get('/test', async (req, res) => {
+    const data = firmata.encode([GET, ACTUAL_PATTERN]);
+    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, ACTUAL_PATTERN, 0x0a, 0xF7]);
+    return Promise.all([data,promise1]).then(() => {
+        res.send({ hi: 'TEST'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+});
+
+
+//----------------------------------------
 
 app.get('/solidcolor', (req, res) => { //to zmienic
     board.transport.read([0xF0, MY_COMMAND, SET_PATTERN, 0x20, 0xF7]);
@@ -515,3 +528,4 @@ app.get('/solidcolor', (req, res) => { //to zmienic
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
+});
