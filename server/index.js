@@ -32,23 +32,21 @@ const SPARKNUMBER = 0x11;
 const BPMNUMBER = 0x12;
 const BPMSPEED = 0x13;
 const ACTUAL_PATTERN = 0x14;
-
+var encode = [];
+var obecna_wartosc;
+var current_pattern;
 function handleAccessorCommand(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
-    console.log({data});
-      var encode = [];
       try {
         encode = firmata.decode(data);
-        console.log(encode);
-        //encode = firmata.decode(encode);
         //console.log(encode);
       } catch (e) {
         console.log({m: 'error', e});
       }
+
       if (encode.length && encode[0] === VALUE) { //
-        const obecna_wartosc = encode[1];
+        obecna_wartosc = encode[1];
         console.log({ok: obecna_wartosc});
       }
-      console.log('\n\n');
     }
 
 var cors = require('cors')
@@ -515,6 +513,17 @@ app.get('/test', async (req, res) => {
     }).catch((error) => {
         res.send({hi: 'error', details: error});
     });
+   
+});
+
+app.get('/read', async (req, res) => {
+    const read = console.log(obecna_wartosc);
+    return Promise.all([read]).then(() => {
+        res.send({ hi: 'READ'});
+    }).catch((error) => {
+        res.send({hi: 'error', details: error});
+    });
+   
 });
 
 
