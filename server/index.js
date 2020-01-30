@@ -6,6 +6,7 @@ const firmata = require("firmata");
 const MY_COMMAND = 0x01;
 const SET_PATTERN = 0x01;
 const SET_SOLID = 0x02;
+const GET_PATTERN = 0x03;
 const RUN = 0x03;
 const CONFIG = 0x04;
 const ACCESS0R = 0x05;
@@ -31,10 +32,13 @@ const CYLONNUMBER = 0x10;
 const SPARKNUMBER = 0x11;
 const BPMNUMBER = 0x12;
 const BPMSPEED = 0x13;
-const ACTUAL_PATTERN = 0x14;
+const PATTERN = 0x1b;
+const COLOR = 0x1c;
+const GET_SOLID = 0x04;
 var encode = [];
+//var settings_value;
 var obecna_wartosc;
-var current_pattern;
+var obecny_color;
 function handleAccessorCommand(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
       try {
         encode = firmata.decode(data);
@@ -43,11 +47,29 @@ function handleAccessorCommand(data) { // data to byte array z wartosciami pomie
         console.log({m: 'error', e});
       }
 
-      if (encode.length && encode[0] === VALUE) { //
-        obecna_wartosc = encode[1];
+      if (encode.length && encode[1] === PATTERN) { //
+        obecna_wartosc = encode[2];
         console.log({ok: obecna_wartosc});
+      } else if (encode.length && encode[1] === COLOR){
+          obecny_color = encode[2];
+          console.log({kolor: obecny_color});
       }
     }
+/*
+    function handleAccessorCommand2(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
+        try {
+          encode = firmata.decode(data);
+          //console.log(encode);
+        } catch (e) {
+          console.log({m: 'error', e});
+        }
+  
+        if (encode.length && encode[0] === VALUE) { //
+          settings_value = encode[1];
+          console.log({sv: settings_value});
+        }
+      }
+ */ 
 
 var cors = require('cors')
 const app = express();
@@ -74,8 +96,9 @@ const promiseWrite = async (transport, command) => {
     return promise;
 };
 var board = new firmata.Board('COM3', function () {
-    board.sysexResponse(ACCESS0R, handleAccessorCommand);
-
+    board.sysexResponse(MY_COMMAND, handleAccessorCommand);
+    //board.sysexResponse(ACCESS0R, handleAccessorCommand2);
+});
 
 app.use(cors({ origin: '*' }));
 app.get('/', async (req, res) => {
@@ -119,7 +142,9 @@ app.get('/config', async (req, res) => {
 app.get('/red', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x00, 0xF7]);
-    return Promise.all([promise1, promise2]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_SOLID]);
+    const promise3 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_SOLID, 0xF7]);
+    return Promise.all([promise1, promise2, data, promise3]).then(() => {
         res.send({ hi: 'red' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -128,7 +153,9 @@ app.get('/red', async (req, res) => {
 app.get('/green', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x01, 0xF7]);
-    return Promise.all([promise1, promise2]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_SOLID]);
+    const promise3 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_SOLID, 0xF7]);
+    return Promise.all([promise1, promise2, data, promise3]).then(() => {
         res.send({ hi: 'green' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -137,7 +164,9 @@ app.get('/green', async (req, res) => {
 app.get('/blue', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x02, 0xF7]);
-    return Promise.all([promise1, promise2]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_SOLID]);
+    const promise3 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_SOLID, 0xF7]);
+    return Promise.all([promise1, promise2, data, promise3]).then(() => {
         res.send({ hi: 'blue' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -146,7 +175,9 @@ app.get('/blue', async (req, res) => {
 app.get('/yellow', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x03, 0xF7]);
-    return Promise.all([promise1, promise2]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_SOLID]);
+    const promise3 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_SOLID, 0xF7]);
+    return Promise.all([promise1, promise2, data, promise3]).then(() => {
         res.send({ hi: 'yellow' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -155,7 +186,9 @@ app.get('/yellow', async (req, res) => {
 app.get('/cyan', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x04, 0xF7]);
-    return Promise.all([promise1, promise2]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_SOLID]);
+    const promise3 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_SOLID, 0xF7]);
+    return Promise.all([promise1, promise2, data, promise3]).then(() => {
         res.send({ hi: 'cyan' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -164,7 +197,9 @@ app.get('/cyan', async (req, res) => {
 app.get('/magenta', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x05, 0xF7]);
-    return Promise.all([promise1, promise2]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_SOLID]);
+    const promise3 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_SOLID, 0xF7]);
+    return Promise.all([promise1, promise2, data, promise3]).then(() => {
         res.send({ hi: 'magenta' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -173,7 +208,9 @@ app.get('/magenta', async (req, res) => {
 app.get('/white', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x06, 0xF7]);
-    return Promise.all([promise1, promise2]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_SOLID]);
+    const promise3 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_SOLID, 0xF7]);
+    return Promise.all([promise1, promise2, data, promise3]).then(() => {
         res.send({ hi: 'white' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -197,7 +234,9 @@ app.get('/downbrightness', async (req, res) => {
 });
 app.get('/rainbowstatic', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x05, 0xF7]);
-    return Promise.all([promise1]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
+    return Promise.all([promise1, data, promise2]).then(() => {
         res.send({ hi: 'rainbowstatic' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -223,7 +262,9 @@ app.get('/rainbowdynamicoptions', async (req, res) => {
 
 app.get('/rainbowdynamic', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x06, 0xF7]);
-    return Promise.all([promise1]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
+    return Promise.all([promise1, data, promise2]).then(() => {
         res.send({ h1: 'rainbowdynamic' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -240,7 +281,9 @@ app.get('/wateroptions', async (req, res) => {
 
 app.get('/water', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x03, 0xF7]);
-    return Promise.all([promise1]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
+    return Promise.all([promise1, data, promise2]).then(() => {
         res.send({ hi: 'water' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -257,7 +300,9 @@ app.get('/blinkoptions', async (req, res) => {
 
 app.get('/blink', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x01, 0xF7]);
-    return Promise.all([promise1]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
+    return Promise.all([promise1, data, promise2]).then(() => {
         res.send({ hi: 'blink' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -274,7 +319,9 @@ app.get('/fireoptions', async (req, res) => {
 
 app.get('/fire', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x04, 0xF7]);
-    return Promise.all([promise1]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
+    return Promise.all([promise1, data, promise2]).then(() => {
         res.send({ hi: 'fire' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -292,7 +339,9 @@ app.get('/cylonoptions', async (req, res) => {
 
 app.get('/cylon', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x07, 0xF7]);
-    return Promise.all([promise1]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
+    return Promise.all([promise1, data, promise2]).then(() => {
         res.send({ hi: 'cylon' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -310,7 +359,9 @@ app.get('/confettioptions', async (req, res) => {
 
 app.get('/confetti', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x02, 0xF7]);
-    return Promise.all([promise1]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
+    return Promise.all([promise1, data, promise2]).then(() => {
         res.send({ hi: 'confetti' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -328,7 +379,9 @@ app.get('/beatoptions', async (req, res) => {
 
 app.get('/beat', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x09, 0xF7]);
-    return Promise.all([promise1]).then(() => {
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
+    return Promise.all([promise1, data, promise2]).then(() => {
         res.send({ hi: 'beat' });
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -506,8 +559,8 @@ app.get('/showcolor', async (req, res) => {
 //---------------------------------------
 //------ TEST-----------------------------
 app.get('/test', async (req, res) => {
-    const data = firmata.encode([GET, ACTUAL_PATTERN]);
-    const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, GET, ACTUAL_PATTERN, 0x0a, 0xF7]);
+    const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
+    const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
     return Promise.all([data,promise1]).then(() => {
         res.send({ hi: 'TEST'});
     }).catch((error) => {
@@ -537,4 +590,3 @@ app.get('/solidcolor', (req, res) => { //to zmienic
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
-});
