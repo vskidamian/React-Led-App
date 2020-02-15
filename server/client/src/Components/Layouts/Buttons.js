@@ -126,8 +126,10 @@ export default function ButtonsMenu() {
                     <Button onClick={useFetchOff} variant="contained" color="secondary" className={classes.button}>
                     <Typography>OFF</Typography>
                 </Button>
+                {/*
                 <Button onClick={useFetchTest} variant="contained" className={classes.button}>TEST</Button>
                 <Button onClick={useFetchRead} variant="contained" className={classes.button}>READ</Button>
+                */}
                 </Grid>
             </Paper>
         </Grid>
