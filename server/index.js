@@ -36,11 +36,11 @@ const PATTERN = 0x1b;
 const COLOR = 0x1c;
 const GET_SOLID = 0x04;
 var encode = [];
-//var settings_value;
+
 var obecna_wartosc;
 var obecny_color;
 var actual_pattern;
-function handleAccessorCommand(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
+function handleAccessorCommand(data) { 
       try {
         encode = firmata.decode(data);
         //console.log(encode);
@@ -96,35 +96,20 @@ function handleAccessorCommand(data) { // data to byte array z wartosciami pomie
                 actual_pattern = "NONE";
             }
         }
-        console.log({nazwa: actual_pattern});
+        console.log({handleAccessorCommand: actual_pattern});
       } else if (encode.length && encode[1] === COLOR){
           obecny_color = encode[2];
           console.log({kolor: obecny_color});
       }
     }
-/*
-    function handleAccessorCommand2(data) { // data to byte array z wartosciami pomiedzy COMMAND, i SYSEX_END (czyli z tablicy od indeksu 2 do przed ostatniego)
-        try {
-          encode = firmata.decode(data);
-          //console.log(encode);
-        } catch (e) {
-          console.log({m: 'error', e});
-        }
-  
-        if (encode.length && encode[0] === VALUE) { //
-          settings_value = encode[1];
-          console.log({sv: settings_value});
-        }
-      }
- */ 
 
 var cors = require('cors')
 const app = express();
 const port = process.env.PORT || 5000;
 var strip = undefined;
-//TEST
+
 var urlencodedParse = bodyParser.urlencoded({extended: false});
-//-------
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -145,21 +130,14 @@ const promiseWrite = async (transport, command) => {
 
 var board = new firmata.Board('COM3', function () {
     board.sysexResponse(MY_COMMAND, handleAccessorCommand);
-    //board.sysexResponse(ACCESS0R, handleAccessorCommand2);
+   
 });
 
 app.use(cors({ origin: '*' }));
 app.get('/', async (req, res) => {
     res.send({hi: 'Lights MENU'});
 });
-/// '/color/test/0' (value='test', id='0' )
-/// '/color/test/1' (value='test', id='1' )
-/// '/color/test/2' (value='test', id='2' )
-/*app.get('/color/:value/:id', (req, res) => {
-    const { value } = req.params; 
-    // const value = req.params.value;
-});
-*/
+
 app.get('/on', (req, res) => { //to zmienic
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x00, 0xF7]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_SOLID, 0x01, 0xF7]);
@@ -298,8 +276,8 @@ app.get('/rainbowstatic', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, SET_PATTERN, 0x05, 0xF7]);
     const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
     const promise2 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
-    return Promise.all([promise1, data, promise2]).then(() => {
-        //res.send({ hi: 'rainbowstatic' });
+    return Promise.all([promise1, data, promise2, ]).then(() => {
+        console.log({actual_pattern: actual_pattern});
         res.json(actual_pattern);
     }).catch((error) => {
         res.send({hi: 'error', details: error});
@@ -481,11 +459,7 @@ app.get('/beat', async (req, res) => {
         res.send({hi: 'error', details: error});
     });  
 });
-/*app.get('/brightcontrol', async (req, res) => {
-    board.transport.write([0xF0, MY_COMMAND, SET_PATTERN, 0x0b, 0xF7]);
-    res.send({ hi: 'brightcontrol' });
-});
-*/
+
 app.get('/uppattern', async (req, res) => {
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, 0x0e, 0xF7]);
     return Promise.all([promise1]).then(() => {
@@ -511,7 +485,6 @@ app.get('/off', async (req, res) => {
     });  
 });
 
-//----------TESTY------------------------
 app.post('/numberofleds', async (req,res) => {
     var numberofleds = req.body.ledsNumber;
     const promise1 = promiseWrite(board.transport, [0xF0, ACCESS0R, SET, NUMBER, numberofleds, 0xF7]);
@@ -650,8 +623,6 @@ app.get('/showcolor', async (req, res) => {
     });
 });
 
-//---------------------------------------
-//------ TEST-----------------------------
 app.get('/test', async (req, res) => {
     const data = firmata.encode([MY_COMMAND, GET_PATTERN]);
     const promise1 = promiseWrite(board.transport, [0xF0, MY_COMMAND, GET_PATTERN, 0xF7]);
@@ -674,9 +645,8 @@ app.get('/read', async (req, res) => {
 });
 
 
-//----------------------------------------
 
-app.get('/solidcolor', (req, res) => { //to zmienic
+app.get('/solidcolor', (req, res) => { 
     board.transport.read([0xF0, MY_COMMAND, SET_PATTERN, 0x20, 0xF7]);
     res.send({ hi: 'solidcolor' });
     

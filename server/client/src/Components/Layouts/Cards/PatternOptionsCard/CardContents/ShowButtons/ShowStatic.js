@@ -37,6 +37,7 @@ export default function ShowStatic() {
             return;
         }
         setFetching(true);
+        
         const result = await fetch('http://localhost:5000/rainbowstatic').then(async (data) => {
             const json = await data.json();
         console.log(json);
